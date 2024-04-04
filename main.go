@@ -12,6 +12,7 @@ func main() {
 
 	//client := lib.SetupConnection()
 
+	//lib.FetchCollection(client, "deepoidsensor")
 	lib.SetupConnection()
 	lib.ConnectHello()
 	lib.FetchHello()

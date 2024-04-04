@@ -29,7 +29,6 @@ func SetupConnection() mongo.Client {
 		log.Fatal("You must set your 'MONGODB_URI' environment variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
 	}
 
-	//uri := "mongodb+srv://mattkarl2001:Homer2001@blhub-test.1hxmrul.mongodb.net/"
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 	if err != nil {
 		panic(err)
