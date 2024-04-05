@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
@@ -41,8 +42,16 @@ func main() {
 		}
 	}()
 
+	document := bson.D{
+		{"Time", "14:52:22"},
+		{"Roll", 0.723491},
+		{"Pitch", -3.248201},
+		{"Yaw", 0.345234}}
+
 	lib.TestConnection(*client)
-	lib.FetchCollection(*client, "deepoidsensor")
+	lib.FetchDocument(*client, "deepoidsensor")
+	lib.InsertDocument(*client, "deepoidsensor", document)
+	//lib.DeleteDocument(*client, "deepoidsensor")
 	lib.ConnectHello()
 	lib.FetchHello()
 	lib.UpdateHello()
