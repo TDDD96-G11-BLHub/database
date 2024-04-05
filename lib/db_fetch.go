@@ -15,12 +15,13 @@ func FetchHello() {
 
 // TODO: Implement switch case for FindOne() and Find()
 // Very much WIP still
-func FetchCollection(client mongo.Client, name string) []byte {
+func FetchDocument(client mongo.Client, name string) []byte {
 
 	coll := client.Database("Sensordata").Collection(name)
 	time := "15:40:22"
+	document := bson.D{{"Time", time}}
 	var result bson.M
-	err := coll.FindOne(context.TODO(), bson.D{{"Time", time}}).Decode(&result)
+	err := coll.FindOne(context.TODO(), document).Decode(&result)
 
 	if err == mongo.ErrNoDocuments {
 		fmt.Printf("No document was found with the time %s\n", time)
