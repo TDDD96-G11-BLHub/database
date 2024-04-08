@@ -14,7 +14,7 @@ Configure the function calls with the DBFunction enum.
 
 Ex:
 ```python
-lib.FetchDocument(*client, "Sensordata", "deepoidsensor", document, lib.FnFindOne)
+lib.FetchDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnFindOne)
 ```
 
 ## InsertDocument
