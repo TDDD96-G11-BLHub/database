@@ -15,7 +15,15 @@ func FetchHello() {
 
 // TODO: Implement switch case for FindOne() and Find()
 // Very much WIP still
-func FetchDocument(client mongo.Client, name string) []byte {
+func FetchDocument(client mongo.Client, name string, fn DBFunction) []byte {
+
+	switch fn {
+	case FnFindOne:
+		fmt.Println(FnFindOne.String())
+
+	case FnFindMany:
+		fmt.Println(FnFindMany.String())
+	}
 
 	coll := client.Database("Sensordata").Collection(name)
 	time := "15:40:22"

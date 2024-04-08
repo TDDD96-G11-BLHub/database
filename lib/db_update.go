@@ -19,7 +19,7 @@ func UpdateHello() {
 // The function will print the unique id of the inserted document
 // Keep in mind that the document must be converted to a bson D type before calling
 // this function.
-func InsertDocument(client mongo.Client, name string, document bson.D) {
+func InsertDocument(client mongo.Client, name string, document bson.D, fn DBFunction) {
 
 	coll := client.Database("Sensordata").Collection(name)
 
@@ -35,7 +35,7 @@ func InsertDocument(client mongo.Client, name string, document bson.D) {
 // Keep in mind that the client most have an open connection in the global scope for this
 // to work.
 // The function will print the amount of documents deleted (currently 1 or 0)
-func DeleteDocument(client mongo.Client, name string, id_hex string) {
+func DeleteDocument(client mongo.Client, name string, id_hex string, fn DBFunction) {
 
 	coll := client.Database("Sensordata").Collection(name)
 	id, err := primitive.ObjectIDFromHex(id_hex)
