@@ -42,18 +42,36 @@ func main() {
 		}
 	}()
 
+	//How to create ObjectID values
+	//id, err := primitive.ObjectIDFromHex("6613bc82b3d073c74f4d038a")
+	//if err != nil {
+	//	panic(err)
+	//}
+
+	//Example of multiple docs
+	//docs := []interface{}{
+	//	bson.D{{"Time", "14:52:22"},
+	//		{"Roll", 0.723491},
+	//		{"Pitch", -3.248201},
+	//		{"Yaw", 0.345234}},
+	//	bson.D{{"Time", "14:52:22"},
+	//		{"Roll", 0.723291},
+	//		{"Pitch", -3.238201},
+	//		{"Yaw", 0.345214}},
+	//}
+
 	//document := bson.D{
 	//	{"Time", "14:52:22"},
 	//	{"Roll", 0.723491},
 	//	{"Pitch", -3.248201},
 	//	{"Yaw", 0.345234}}
-	time := "15:40:22"
-	document := bson.D{{"Time", time}}
+
+	filter := bson.D{{"Time", "15:40:22"}}
 	lib.TestConnection(*client)
-	lib.FetchDocument(*client, "Sensordata", "deepoidsensor", document, lib.FnFindOne)
-	lib.FetchDocument(*client, "Sensordata", "deepoidsensor", document, lib.FnFindMany)
-	//lib.InsertDocument(*client, "deepoidsensor", document)
-	//lib.DeleteDocument(*client, "deepoidsensor", "661394cfe1f35041de472f4b")
+	lib.FetchDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnFindOne)
+	lib.FetchDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnFindMany)
+	//lib.InsertDocument(*client, "Sensordata", "deepoidsensor", nil, docs, lib.FnInsertMany)
+	//lib.DeleteDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnDeleteOne)
 	lib.ConnectHello()
 	lib.FetchHello()
 	lib.UpdateHello()
