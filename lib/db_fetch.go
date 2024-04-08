@@ -72,6 +72,6 @@ func FetchDocument(client mongo.Client, database string, collection string, filt
 		fmt.Printf("%s\n", jsonData)
 		return jsonData
 	}
-	fmt.Printf("No data was found, check query filter %x, collection name %s or database name %s", filter, collection, database)
+	fmt.Printf("No data was found, check query filter %x, collection name %s or database name %s\n", filter, collection, database)
 	return nil
 }
