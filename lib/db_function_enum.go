@@ -14,6 +14,8 @@ const (
 	FnInsertOne //EnumIndex = 5
 
 	FnInsertMany //EnumIndex = 6
+
+	FnFindAll //EnumIndex = 7
 )
 
 // String - Creating common behavior - give the type a String function
@@ -24,7 +26,8 @@ func (f DBFunction) String() string {
 		"FnDeleteOne",
 		"FnDeleteMany",
 		"FnInsertOne",
-		"FnInsertMany"}[f-1]
+		"FnInsertMany",
+		"FnFindAll"}[f-1]
 }
 
 // EnumIndex - Creating common behavior - give the type a EnumIndex function
