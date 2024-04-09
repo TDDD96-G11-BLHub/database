@@ -57,7 +57,7 @@ func DeleteDocument(client mongo.Client, database string, collection string, fil
 
 	coll := client.Database(database).Collection(collection)
 
-	//TODO: Check what this does, currently no clue
+	//TODO: Check what this does, currently no clue. Sets some sort of rules for query?
 	opts := options.Delete().SetCollation(&options.Collation{
 		Locale:    "en_US",
 		Strength:  1,
@@ -83,4 +83,27 @@ func DeleteDocument(client mongo.Client, database string, collection string, fil
 	}
 
 	fmt.Printf("An incorrect deletemode was selected.\n Selected mode: %s\n Allowed modes: %s, %s\n", fn.String(), FnDeleteOne.String(), FnDeleteMany.String())
+}
+
+// NewCollection creates a new collection on the given database with the given name.
+// This function currently uses no options when creating the collection which might be unsafe
+// and should probably be implemented before deployment.
+func NewCollection(client mongo.Client, database string, collection string) {
+
+	err := client.Database(database).CreateCollection(context.TODO(), collection)
+	if err != nil {
+		panic(err)
+	}
+}
+
+// DropDatabase drops the entire database from the cluster.
+// This function ignores the namspace not found error so it won't crash
+// the program if the database doesn't exist.
+// Keep in mind that this function is irreversible so be careful when using.
+func DropDatabase(client mongo.Client, database string) {
+
+	err := client.Database(database).Drop(context.TODO())
+	if err != nil {
+		panic(err)
+	}
 }

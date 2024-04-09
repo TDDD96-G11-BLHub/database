@@ -22,3 +22,9 @@ This function currently has two parameters for the documents to be inserted. One
 
 ## DeleteDocument
 When calling this function with FnDeletOne the filter MUST be set to the ObjectId of the document to be deleted. Otherwise a random matching document will be deleted. Also keep in mind that calling this function with FnDeleteMany will delete ALL matching documents so be careful!
+
+## DropDatabase
+Be VERY CAREFUL with this function since it is irreversible and will drop the entire database along with the collections. It will not crash if the database name given is incorrect so double check the result in the database to see if it actually dropped a database
+
+## GetAll functions
+These functions are very usable for getting information about the cluster and the databases. They will be used for functions where the names of databases and collections are used so the user won't have to explicitly give the name of the queriable object.
