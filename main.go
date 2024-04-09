@@ -80,5 +80,4 @@ func main() {
 	lib.ConnectHello()
 	lib.FetchHello()
 	lib.UpdateHello()
-
 }
