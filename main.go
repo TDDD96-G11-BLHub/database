@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
@@ -60,16 +59,22 @@ func main() {
 	//		{"Yaw", 0.345214}},
 	//}
 
+	//Example of a document
 	//document := bson.D{
 	//	{"Time", "14:52:22"},
 	//	{"Roll", 0.723491},
 	//	{"Pitch", -3.248201},
 	//	{"Yaw", 0.345234}}
 
-	filter := bson.D{{"Time", "15:40:22"}}
+	//Example of a filter
+	//filter := bson.D{{"Time", "15:40:22"}}
+
 	lib.TestConnection(*client)
-	lib.FetchDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnFindOne)
-	lib.FetchDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnFindMany)
+	lib.GetAllDatabases(*client)
+	lib.GetAllCollections(*client, "Sensordata")
+	//lib.FetchDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnFindOne)
+	//lib.FetchDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnFindMany)
+	//lib.NewCollection(*client, "Sensordata", "sensortyp2")
 	//lib.InsertDocument(*client, "Sensordata", "deepoidsensor", nil, docs, lib.FnInsertMany)
 	//lib.DeleteDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnDeleteOne)
 	lib.ConnectHello()
