@@ -107,3 +107,15 @@ func DropDatabase(client mongo.Client, database string) {
 		panic(err)
 	}
 }
+
+// DropCollection drops the entire collection from the database.
+// This function ignores the namspace not found error so it won't crash
+// the program if the collection doesn't exist.
+// Keep in mind that this function is irreversible so be careful when using.
+func DropCollection(client mongo.Client, database string, collection string) {
+
+	err := client.Database(database).Collection(collection).Drop(context.TODO())
+	if err != nil {
+		panic(err)
+	}
+}
