@@ -8,10 +8,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func ConnectHello() {
-	fmt.Println("Hello, this is the connect package")
-}
-
 // TestConnection sends a ping to the database via the client instance
 // It panics if the connection is down, otherwise prints a confirmation
 func TestConnection(client mongo.Client) {

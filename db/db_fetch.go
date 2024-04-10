@@ -9,10 +9,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func FetchHello() {
-	fmt.Println("Hello, this is the fetch package")
-}
-
 // TODO: Find a way to decode hexadecimal in error messages
 
 // FetchOneDocument querys the database and returns one matching documents.
