@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/TDDD96-G11-BLHub/dbman/lib"
+	"github.com/TDDD96-G11-BLHub/dbman/db"
 )
 
 // DB PR
@@ -69,15 +69,15 @@ func main() {
 	//Example of a filter
 	//filter := bson.D{{"Time", "15:40:22"}}
 
-	lib.TestConnection(*client)
-	lib.GetAllDatabases(*client)
-	lib.GetAllCollections(*client, "Sensordata")
-	//lib.FetchDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnFindOne)
-	//lib.FetchDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnFindMany)
-	//lib.NewCollection(*client, "Sensordata", "sensortyp2")
-	//lib.InsertDocument(*client, "Sensordata", "deepoidsensor", nil, docs, lib.FnInsertMany)
-	//lib.DeleteDocument(*client, "Sensordata", "deepoidsensor", filter, lib.FnDeleteOne)
-	lib.ConnectHello()
-	lib.FetchHello()
-	lib.UpdateHello()
+	db.TestConnection(*client)
+	db.GetAllDatabases(*client)
+	db.GetAllCollections(*client, "Sensordata")
+	// db.FetchOneDocument(*client, "Sensordata", "deepoidsensor", filter)
+	// db.FetchManyDocuments(*client, "Sensordata", "deepoidsensor", filter)
+	// db.NewCollection(*client, "Sensordata", "sensortyp2")
+	// db.InsertManyDocuments(*client, "Sensordata", "deepoidsensor", docs)
+	// db.DeleteManyDocuments(*client, "Sensordata", "deepoidsensor", filter)
+	db.ConnectHello()
+	db.FetchHello()
+	db.UpdateHello()
 }
