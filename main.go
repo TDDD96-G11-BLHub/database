@@ -77,7 +77,4 @@ func main() {
 	// db.NewCollection(*client, "Sensordata", "sensortyp2")
 	// db.InsertManyDocuments(*client, "Sensordata", "deepoidsensor", docs)
 	// db.DeleteManyDocuments(*client, "Sensordata", "deepoidsensor", filter)
-	db.ConnectHello()
-	db.FetchHello()
-	db.UpdateHello()
 }

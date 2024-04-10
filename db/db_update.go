@@ -9,10 +9,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func UpdateHello() {
-	fmt.Println("Hello, this is the update package")
-}
-
 // InsertOneDocument takes the client, a collection name and a bson document to be inserted.
 // The client must have an open connection in the global scope for this to work.
 // The function will print the unique id of the inserted document
@@ -32,9 +28,9 @@ func InsertOneDocument(client mongo.Client, database string, collection string, 
 // InsertManyDocuments takes the client, a collection name and an interface with bson documents to be inserted.
 // The client must have an open connection in the global scope for this to work.
 // The function will print the unique ids of all the inserted documents
-// Keep in mind that the documents must be converted to a bson D type and put into an interface before calling
+// Keep in mind that the documents must be converted to a bson D type and put into a set ([]any) before calling
 // this function.
-func InsertManyDocuments(client mongo.Client, database string, collection string, docs []interface{}) {
+func InsertManyDocuments(client mongo.Client, database string, collection string, docs []any) {
 
 	coll := client.Database(database).Collection(collection)
 
@@ -110,22 +106,14 @@ func NewCollection(client mongo.Client, database string, collection string) {
 // This function ignores the namspace not found error so it won't crash
 // the program if the database doesn't exist.
 // Keep in mind that this function is irreversible so be careful when using.
-func DropDatabase(client mongo.Client, database string) {
-
-	err := client.Database(database).Drop(context.TODO())
-	if err != nil {
-		panic(err)
-	}
+func DropDatabase(client mongo.Client, database string) error {
+	return client.Database(database).Drop(context.TODO())
 }
 
 // DropCollection drops the entire collection from the database.
 // This function ignores the namspace not found error so it won't crash
 // the program if the collection doesn't exist.
 // Keep in mind that this function is irreversible so be careful when using.
-func DropCollection(client mongo.Client, database string, collection string) {
-
-	err := client.Database(database).Collection(collection).Drop(context.TODO())
-	if err != nil {
-		panic(err)
-	}
+func DropCollection(client mongo.Client, database string, collection string) error {
+	return client.Database(database).Collection(collection).Drop(context.TODO())
 }
