@@ -13,8 +13,6 @@ func UpdateHello() {
 	fmt.Println("Hello, this is the update package")
 }
 
-//TODO: Update comments
-
 // InsertOneDocument takes the client, a collection name and a bson document to be inserted.
 // The client must have an open connection in the global scope for this to work.
 // The function will print the unique id of the inserted document
