@@ -10,7 +10,7 @@ import (
 
 // TestConnection sends a ping to the database via the client instance
 // It panics if the connection is down, otherwise prints a confirmation
-func TestConnection(client mongo.Client) {
+func TestConnection(client *mongo.Client) {
 
 	// Send a ping to confirm a successful connection
 	var result bson.M
@@ -23,7 +23,7 @@ func TestConnection(client mongo.Client) {
 
 // GetAllCollections querys the database for all the collectionnames currently in the database
 // It will print out these names as well as return them as a stringarray
-func GetAllCollections(client mongo.Client, database string) []string {
+func GetAllCollections(client *mongo.Client, database string) []string {
 
 	result, err := client.Database(database).ListCollectionNames(context.TODO(), bson.D{})
 	if err != nil {
@@ -35,7 +35,7 @@ func GetAllCollections(client mongo.Client, database string) []string {
 
 // GetAllDatabases lists all the database in the current cluster.
 // It will print out these names as well as return them as a stringarray
-func GetAllDatabases(client mongo.Client) []string {
+func GetAllDatabases(client *mongo.Client) []string {
 	result, err := client.ListDatabaseNames(context.TODO(), bson.D{})
 	if err != nil {
 		panic(err)

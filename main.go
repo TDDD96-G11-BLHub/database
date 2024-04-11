@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
@@ -67,14 +68,14 @@ func main() {
 	//	{"Yaw", 0.345234}}
 
 	//Example of a filter
-	//filter := bson.D{{"Time", "15:40:22"}}
+	filter := bson.D{{"Time", "15:40:22"}}
 
-	db.TestConnection(*client)
-	db.GetAllDatabases(*client)
-	db.GetAllCollections(*client, "Sensordata")
-	// db.FetchOneDocument(*client, "Sensordata", "deepoidsensor", filter)
-	// db.FetchManyDocuments(*client, "Sensordata", "deepoidsensor", filter)
-	// db.NewCollection(*client, "Sensordata", "sensortyp2")
-	// db.InsertManyDocuments(*client, "Sensordata", "deepoidsensor", docs)
-	// db.DeleteManyDocuments(*client, "Sensordata", "deepoidsensor", filter)
+	db.TestConnection(client)
+	db.GetAllDatabases(client)
+	db.GetAllCollections(client, "Sensordata")
+	db.FetchOneDocument(client, "Sensordata", "deepoidsensor", filter)
+	db.FetchManyDocuments(client, "Sensordata", "deepoidsensor", filter)
+	// db.NewCollection(client, "Sensordata", "sensortyp2")
+	// db.InsertManyDocuments(client, "Sensordata", "deepoidsensor", docs)
+	// db.DeleteManyDocuments(client, "Sensordata", "deepoidsensor", filter)
 }
