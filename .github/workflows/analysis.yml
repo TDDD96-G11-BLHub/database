@@ -1,0 +1,34 @@
+name: Analysis
+on: [push, pull_request]
+permissions:
+  contents: read
+
+jobs:
+  static_analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+    - uses: actions/setup-go@v5
+      with:
+        go-version: 'stable'
+
+    - name: Install static analysis tools
+      run: |
+        go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
+        go install honnef.co/go/tools/cmd/staticcheck@latest
+        go install mvdan.cc/gofumpt@latest
+
+    - name: Vet
+      run: go vet ./...
+
+    - name: Gofumpt
+      run: test -z "$(gofumpt -d -e . | tee /dev/stderr)"
+
+    - name: Gocyclo
+      run: gocyclo -over 15 .
+
+    - name: Staticcheck
+      run: staticcheck ./...
