@@ -14,7 +14,7 @@ import (
 // The function will print the unique id of the inserted document
 // Keep in mind that the document must be converted to a bson D type before calling
 // this function.
-func InsertOneDocument(client mongo.Client, database string, collection string, document bson.D) {
+func InsertOneDocument(client *mongo.Client, database string, collection string, document bson.D) {
 
 	coll := client.Database(database).Collection(collection)
 
@@ -30,7 +30,7 @@ func InsertOneDocument(client mongo.Client, database string, collection string, 
 // The function will print the unique ids of all the inserted documents
 // Keep in mind that the documents must be converted to a bson D type and put into a set ([]any) before calling
 // this function.
-func InsertManyDocuments(client mongo.Client, database string, collection string, docs []any) {
+func InsertManyDocuments(client *mongo.Client, database string, collection string, docs []any) {
 
 	coll := client.Database(database).Collection(collection)
 
@@ -48,7 +48,7 @@ func InsertManyDocuments(client mongo.Client, database string, collection string
 // Keep in mind that the client most have an open connection in the global scope for this
 // to work.
 // The function will print the amount of documents deleted
-func DeleteOneDocument(client mongo.Client, database string, collection string, id bson.D) {
+func DeleteOneDocument(client *mongo.Client, database string, collection string, id bson.D) {
 
 	coll := client.Database(database).Collection(collection)
 
@@ -73,7 +73,7 @@ func DeleteOneDocument(client mongo.Client, database string, collection string, 
 // To delete all documents it can be called with an empty bson.D object filter although it would be
 // better to drop the collection
 // The function will print the amount of documents deleted
-func DeleteManyDocuments(client mongo.Client, database string, collection string, filter bson.D) {
+func DeleteManyDocuments(client *mongo.Client, database string, collection string, filter bson.D) {
 
 	coll := client.Database(database).Collection(collection)
 
@@ -94,7 +94,7 @@ func DeleteManyDocuments(client mongo.Client, database string, collection string
 // NewCollection creates a new collection on the given database with the given name.
 // This function currently uses no options when creating the collection which might be unsafe
 // and should probably be implemented before deployment.
-func NewCollection(client mongo.Client, database string, collection string) {
+func NewCollection(client *mongo.Client, database string, collection string) {
 
 	err := client.Database(database).CreateCollection(context.TODO(), collection)
 	if err != nil {
@@ -106,7 +106,7 @@ func NewCollection(client mongo.Client, database string, collection string) {
 // This function ignores the namspace not found error so it won't crash
 // the program if the database doesn't exist.
 // Keep in mind that this function is irreversible so be careful when using.
-func DropDatabase(client mongo.Client, database string) error {
+func DropDatabase(client *mongo.Client, database string) error {
 	return client.Database(database).Drop(context.TODO())
 }
 
@@ -114,6 +114,6 @@ func DropDatabase(client mongo.Client, database string) error {
 // This function ignores the namspace not found error so it won't crash
 // the program if the collection doesn't exist.
 // Keep in mind that this function is irreversible so be careful when using.
-func DropCollection(client mongo.Client, database string, collection string) error {
+func DropCollection(client *mongo.Client, database string, collection string) error {
 	return client.Database(database).Collection(collection).Drop(context.TODO())
 }

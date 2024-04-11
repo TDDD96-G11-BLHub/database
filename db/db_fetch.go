@@ -15,7 +15,7 @@ import (
 // An open clientconnection is required in the global scope to fetch from the database.
 // Both the database and collection name must be given, as well as a query filter.
 // It will return the result as marshaled jsondata
-func FetchOneDocument(client mongo.Client, database string, collection string, filter bson.D) []byte {
+func FetchOneDocument(client *mongo.Client, database string, collection string, filter bson.D) []byte {
 	coll := client.Database(database).Collection(collection)
 	var result_one bson.M
 
@@ -41,7 +41,7 @@ func FetchOneDocument(client mongo.Client, database string, collection string, f
 // Both the database and collection name must be given, as well as a query filter.
 // To get all documents in the collection this function can be calle with and empty bson.D object filter
 // It will return the result as marshaled jsondata
-func FetchManyDocuments(client mongo.Client, database string, collection string, filter bson.D) []byte {
+func FetchManyDocuments(client *mongo.Client, database string, collection string, filter bson.D) []byte {
 	coll := client.Database(database).Collection(collection)
 	var result_many []bson.M
 
