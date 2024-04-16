@@ -13,7 +13,6 @@ import (
 
 // DB PR
 func main() {
-
 	fmt.Println("Hello from BLHub database manager!")
 
 	// This section creates a connection to the mongodb database given the uri setup in the environment variable
@@ -57,8 +56,8 @@ func main() {
 	//		{"Yaw", 0.345214}},
 	//}
 
-	//Example of a document
-	//document := bson.D{
+	// Example of a document
+	// document := bson.D{
 	//	{"Time", "14:52:22"},
 	//	{"Roll", 0.723491},
 	//	{"Pitch", -3.248201},
