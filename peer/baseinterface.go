@@ -13,7 +13,6 @@ import (
 //TODO: Create and use slog in functions
 //TODO: More descriptive errors, maybe even just return them
 //TODO: Maybe just use string instead of address package
-//TODO: Check if it is safe to save open file pointers in struct while they are open
 //TODO: Add Defer functions to close files on crash
 //TODO: Add keys to collections in write function
 
@@ -94,6 +93,7 @@ func (db *LocalDB) Open(ctx context.Context, collection *Collection) (*os.File, 
 	if err != nil {
 		db.log.Error("Could not open file")
 	}
+	defer file.Close()
 	collection.file = file
 	return file, err
 }
