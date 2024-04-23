@@ -88,13 +88,10 @@ func (f FilterFloat) filterMatch(doc DeepoidSenor) bool {
 	switch f.Field {
 	case "Pitch":
 		val = doc.Pitch
-		break
 	case "Yaw":
 		val = doc.Yaw
-		break
 	case "Roll":
 		val = doc.Roll
-		break
 	default:
 		return false
 	}
