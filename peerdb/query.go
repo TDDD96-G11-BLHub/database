@@ -3,7 +3,7 @@ package peerdb
 import (
 	"context"
 	"encoding/json"
-	"os"
+	"fmt"
 	"time"
 )
 
@@ -38,12 +38,17 @@ type DeepoidSenor struct {
 
 func LoadCollection(ctx context.Context, db *LocalDB, collection *Collection) ([]DeepoidSenor, error) {
 	var res []DeepoidSenor
-	doc, err := os.ReadFile(db.path.String() + "/" + collection.name)
+	var doc []byte
+	bytes, err := collection.file.Read(doc)
+	fmt.Println(doc)
 	if err != nil {
 		db.log.Error("Could not read from file")
+		db.log.Error("Bytes read")
 	}
-	er := json.Unmarshal([]byte(doc), &res)
+	fmt.Println("Bytes read", bytes)
+	er := json.Unmarshal(doc, &res)
 	if er != nil {
+		fmt.Println(er)
 		db.log.Error("Could not Unmarshal document")
 	}
 
