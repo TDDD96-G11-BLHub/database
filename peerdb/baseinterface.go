@@ -4,8 +4,12 @@ import (
 	"context"
 	"encoding/csv"
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"os"
+	"strings"
+
+	"github.com/google/uuid"
 )
 
 //TODO: Create different types of LocalDB struct. (Document, user, sensor, more...)
@@ -87,10 +91,22 @@ func CreateLocalDatabase(ctx context.Context, name string, path string, log slog
 	return &db, err
 }
 
-func LoadLocalDatabase(ctx context.Context, name string, path string, log slog.Logger) *LocalDB {
+func LoadLocalDatabase(ctx context.Context, name string, path string, log slog.Logger) (*LocalDB, error) {
 	var collections []*Collection
 	db := LocalDB{name: name, path: path + "/" + name, collections: collections, log: &log}
-	return &db
+	files, err := os.ReadDir(path + "/" + name)
+	if err != nil {
+		log.Error("Could not load directory")
+		fmt.Println(err)
+	}
+	var i int
+	for i = 0; i < len(files); i++ {
+		coll := Collection{files[i].Name(), nil, []byte(" "), &log}
+		db.collections = append(db.collections, &coll)
+		fmt.Println(coll)
+	}
+
+	return &db, err
 }
 
 func (db *LocalDB) Logger() *slog.Logger {
@@ -134,11 +150,37 @@ func ReadFromCSV(ctx context.Context, path string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(content)
+	cByte := formatStrToJson(content)
 
-	jsonData, err := json.Marshal(content)
+	jsonData, err := json.Marshal(cByte)
 	if err != nil {
 		return nil, err
 	}
 
 	return jsonData, err
+}
+
+// Maybe implement template later
+func formatStrToJson(content [][]string) string {
+	fields := content[0]
+	var cStr string = `[`
+
+	var i int
+	for i = 1; i < len(content); i++ {
+		cStr +=
+			`{"id":` + `"` + uuid.New().String() + `"` +
+				`,` + `"` + fields[0] + `"` + `:` + content[i][0] +
+				`,` + `"` + fields[1] + `"` + `:` + content[i][1] +
+				`,` + `"` + fields[2] + `"` + `:` + content[i][2] +
+				`,` + `"` + fields[3] + `"` + `:` + content[i][3] + `},`
+	}
+	res, found := strings.CutSuffix(cStr, ",")
+	if !found {
+		panic(found)
+	}
+	res += `]`
+	fmt.Println(res)
+
+	return res
 }

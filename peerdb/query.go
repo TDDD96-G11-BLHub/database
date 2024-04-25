@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -19,7 +20,7 @@ type FilterTime struct {
 }
 
 type FilterId struct {
-	Value uint
+	Value [16]byte
 }
 
 type FilterFloat struct {
@@ -29,7 +30,7 @@ type FilterFloat struct {
 }
 
 type DeepoidSenor struct {
-	id    uint
+	id    [16]byte
 	Time  time.Time
 	Roll  float64
 	Pitch float64
@@ -38,15 +39,13 @@ type DeepoidSenor struct {
 
 func LoadCollection(ctx context.Context, db *LocalDB, collection *Collection) ([]DeepoidSenor, error) {
 	var res []DeepoidSenor
-	var doc []byte
-	bytes, err := collection.file.Read(doc)
-	fmt.Println(doc)
+	bytes, err := os.ReadFile(collection.file.Name())
+	fmt.Println(bytes)
 	if err != nil {
 		db.log.Error("Could not read from file")
 		db.log.Error("Bytes read")
 	}
-	fmt.Println("Bytes read", bytes)
-	er := json.Unmarshal(doc, &res)
+	er := json.Unmarshal(bytes, &res)
 	if er != nil {
 		fmt.Println(er)
 		db.log.Error("Could not Unmarshal document")
@@ -127,7 +126,7 @@ func CreateFilter(field string, operator string, value any) FilterFunc {
 	case "Roll":
 		return FilterFloat{value.(float64), "=", field}
 	case "id":
-		return FilterId{value.(uint)}
+		return FilterId{value.([16]byte)}
 	case "Time":
 		return FilterTime{value.(time.Time), operator}
 	default:
