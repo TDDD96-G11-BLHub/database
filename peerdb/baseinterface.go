@@ -3,7 +3,6 @@ package peerdb
 import (
 	"context"
 	"encoding/csv"
-	"encoding/json"
 	"fmt"
 	"log/slog"
 	"os"
@@ -150,15 +149,14 @@ func ReadFromCSV(ctx context.Context, path string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(content)
 	cByte := formatStrToJson(content)
 
-	jsonData, err := json.Marshal(cByte)
-	if err != nil {
-		return nil, err
-	}
+	//jsonData, err := json.Marshal(cByte)
+	//if err != nil {
+	//	return nil, err
+	//}
 
-	return jsonData, err
+	return []byte(cByte), err
 }
 
 // Maybe implement template later
@@ -169,8 +167,8 @@ func formatStrToJson(content [][]string) string {
 	var i int
 	for i = 1; i < len(content); i++ {
 		cStr +=
-			`{"id":` + `"` + uuid.New().String() + `"` +
-				`,` + `"` + fields[0] + `"` + `:` + content[i][0] +
+			`{"Id":` + `"` + uuid.New().String() + `"` +
+				`,` + `"` + fields[0] + `"` + `:` + `"` + content[i][0] + `"` +
 				`,` + `"` + fields[1] + `"` + `:` + content[i][1] +
 				`,` + `"` + fields[2] + `"` + `:` + content[i][2] +
 				`,` + `"` + fields[3] + `"` + `:` + content[i][3] + `},`

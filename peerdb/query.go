@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"os"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 //TODO: implement support for adding structs for new sensordata structures.
@@ -15,12 +17,12 @@ type FilterFunc interface {
 }
 
 type FilterTime struct {
-	Value     time.Time
+	Value     string
 	Operation string
 }
 
 type FilterId struct {
-	Value [16]byte
+	Value uuid.UUID
 }
 
 type FilterFloat struct {
@@ -30,8 +32,8 @@ type FilterFloat struct {
 }
 
 type DeepoidSenor struct {
-	id    [16]byte
-	Time  time.Time
+	Id    string
+	Time  string
 	Roll  float64
 	Pitch float64
 	Yaw   float64
@@ -40,7 +42,6 @@ type DeepoidSenor struct {
 func LoadCollection(ctx context.Context, db *LocalDB, collection *Collection) ([]DeepoidSenor, error) {
 	var res []DeepoidSenor
 	bytes, err := os.ReadFile(collection.file.Name())
-	fmt.Println(bytes)
 	if err != nil {
 		db.log.Error("Could not read from file")
 		db.log.Error("Bytes read")
@@ -70,20 +71,33 @@ func QueryCollection(ctx context.Context, db *LocalDB, docs []DeepoidSenor, f Fi
 }
 
 func (f FilterTime) filterMatch(doc DeepoidSenor) bool {
+	filterTime, err := time.Parse(time.TimeOnly, f.Value)
+	if err != nil {
+		fmt.Println(err)
+	}
+	collTime, err := time.Parse(time.TimeOnly, doc.Time)
+	if err != nil {
+		fmt.Println(err)
+	}
 	switch f.Operation {
 	case "same":
-		return doc.Time.Equal(f.Value)
+		return collTime.Equal(filterTime)
 	case "after":
-		return doc.Time.After(f.Value)
+		return collTime.After(filterTime)
 	case "before":
-		return doc.Time.Before(f.Value)
+		return collTime.Before(filterTime)
 	default:
 		return false
 	}
 }
 
 func (f FilterId) filterMatch(doc DeepoidSenor) bool {
-	return f.Value == doc.id
+	byteId, err := uuid.Parse(doc.Id)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return f.Value == byteId
 }
 
 func (f FilterFloat) filterMatch(doc DeepoidSenor) bool {
@@ -125,10 +139,10 @@ func CreateFilter(field string, operator string, value any) FilterFunc {
 		return FilterFloat{value.(float64), operator, field}
 	case "Roll":
 		return FilterFloat{value.(float64), "=", field}
-	case "id":
-		return FilterId{value.([16]byte)}
+	case "Id":
+		return FilterId{value.(uuid.UUID)}
 	case "Time":
-		return FilterTime{value.(time.Time), operator}
+		return FilterTime{value.(string), operator}
 	default:
 		return nil
 	}
