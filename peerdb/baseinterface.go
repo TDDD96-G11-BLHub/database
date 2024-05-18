@@ -21,8 +21,6 @@ import (
 //TODO: Add loading collections to LoadLocalDatabase
 
 type LocalDBBase interface {
-	ID() *Identity
-
 	Open(ctx context.Context, collection *Collection) (*os.File, error)
 
 	Create(ctx context.Context, name string) (Collection, error)
@@ -34,17 +32,6 @@ type LocalDBBase interface {
 	Logger() *slog.Logger
 
 	GetCollections() []*Collection
-}
-
-type Identity struct {
-	iD         []byte
-	pubKey     []byte
-	signatures []*IDSignatures
-}
-
-type IDSignatures struct {
-	iD     []byte
-	pubKey []byte
 }
 
 type LocalDB struct {

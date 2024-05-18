@@ -17,7 +17,8 @@ func main() {
 	//C:\Users\Mattias\OneDrive\Dokument\GitHub\dbman
 
 	//ReCreateTestDb()
-	TestDb()
+	//TestDb()
+	peerdb.InitNode()
 }
 
 func TestDb() {
